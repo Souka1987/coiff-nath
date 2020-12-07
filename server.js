@@ -6,11 +6,19 @@ const
     app = express(),
     // Lien avec la base de données
     mongoose = require('mongoose')
-
+    //mongoStore = require('connect-mongo'),
 
 //ENV
 require('dotenv').config()
 //console.log(process.env);
+
+
+// Cors
+app.use(cors({
+    origin: ['http://localhost:8080'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+}))
 
 // Body parser permet de parser les data d'une page à l'autre en passant par les controllers, ... 
 // Parser = https://fr.wiktionary.org/wiki/parser

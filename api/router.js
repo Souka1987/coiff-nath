@@ -1,34 +1,26 @@
 // Import 
 const express = require('express'),
-    mongodb = require('mongodb'),
     router = express.Router()
 
 
 
 
 
+const { isAdmin } = require('../middleware/auth')
 // CONTROLLER
-const homeController = require('./controllers/homeController')
+const productsController = require('./controllers/productsController')
 
 
 
 
 
 /*
- * Home
- * ***** */
+ * Page Nos produits
+ * ****************** */
 
-router.route('/')
-    .get(homeController.get)
-
-
-// Add post
-
-
-
-
-
-// Delete post
+router.route('/products')
+    .get(productsController.get)
+    .post(isAdmin, productsController.post)
 
 
 
@@ -46,5 +38,6 @@ router.route('/')
 
 
 
-    // Exportation du routeur
-    module.exports = router
+
+// Exportation du routeur
+module.exports = router
