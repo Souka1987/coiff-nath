@@ -5,13 +5,34 @@ const
     cors = require('cors'),
     app = express(),
     // Lien avec la base de données
-    mongoose = require('mongoose')
+    mongoose = require('mongoose'),
+    morgan = require('morgan'),
     //mongoStore = require('connect-mongo'),
+    //MongoStore = mongoStore(session),
+    // Handlebars sert à créer des modèles de pages web réutilisables
+    hbs = require('express-handlebars')
+//mongoStore = require('connect-mongo'),
 
 //ENV
 require('dotenv').config()
 //console.log(process.env);
 
+// Morgan => Middleware de journalisation des requêtes HTTP pour node.js
+app.use(morgan('dev'))
+
+/* L'entête Access-Control-Allow-Origin renvoie une réponse indiquant 
+si les ressources peuvent être partagées avec une origine donnée.*/
+app.use('*', (req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+    next()
+})
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', req.header('origin'))
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+    next()
+})
 
 // Cors
 app.use(cors({
@@ -32,6 +53,13 @@ app.use(express.urlencoded({
     extended: true
 }))
 
+// Handlebars
+app.set('view engine', 'hbs');
+app.engine('hbs', hbs({
+    extname: 'hbs',
+    layouts: 'main',
+}));
+
 // Mongoose pour le lien avec la base de données. "coiff'nath" est le nom de la base de données.
 mongoose
     .connect(process.env.MONGO_URI, { // URI = chemin
@@ -41,7 +69,8 @@ mongoose
         useFindAndModify: false
     })
     .then(() => console.log('Connecté à MongoDB'))
-    .catch(err => console.log(err))
+    .catch(err => console.log(err));
+
 
 // Port
 port = process.env.PORT || 5000;
@@ -50,7 +79,7 @@ port = process.env.PORT || 5000;
 // Notre router permettra de diriger des chemins 'URL' sur les actions 'Controller' qui distriburont nos pages, ... 
 // CRUD = GET / POST / PUT / DELETE
 const ROUTER = require('./api/router')
-app.use('/', ROUTER)
+app.use('/api', ROUTER)
 
 
 // Ensuite nous demandons a express (app) de run notre projet.

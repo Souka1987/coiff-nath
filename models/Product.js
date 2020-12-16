@@ -8,24 +8,19 @@ const mongoose = require('mongoose'),
 
 //Schema
 const ProductSchema = new mongoose.Schema({
-    author: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    },
-    title: String,
+    name: String,
     content: String,
     price: Number,
-    date: String,
-    image: String,
-    admin: {
-        type: Boolean,
-        default: false
-    },
-    isVerified: {
-        type: Boolean,
-        default: false
-    },
-    createDate: String
+    //image: String,
+    //admin: {
+    //    type: Boolean,
+    //    default: false
+    //},
+    //isVerified: {
+    //    type: Boolean,
+    //    default: false
+    //},
+    //createDate: String
 
 })
 
