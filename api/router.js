@@ -9,15 +9,6 @@ const productsController = require('./controllers/productsController')
 
 
 /*
- * Page Nos produits
- * ****************** */
-
-// router.route('/products')
-//     .get(productsController.get)
-
-
-
-/*
  * Admin
  * ****************** */
 
@@ -28,19 +19,6 @@ router.route('/products')
 router.route('/products/:id')
   .put(productsController.put)
   .delete(productsController.deleteOne)
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
